@@ -68,18 +68,18 @@ require("lazy").setup({
     },
     -- Packer
     { "sindrets/diffview.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
-    {
-        "nvim-neorg/neorg",
-        ft = "norg",
-        config = function()
-            require("neorg").setup({
-                load = {
-                    ["core.defaults"] = {},
-                },
-            })
-        end,
-        dependencies = { "nvim-lua/plenary.nvim" },
-    },
+    --{
+    --    "nvim-neorg/neorg",
+    --    ft = "norg",
+    --    config = function()
+    --        require("neorg").setup({
+    --            load = {
+    --                ["core.defaults"] = {},
+    --            },
+    --        })
+    --    end,
+    --    dependencies = { "nvim-lua/plenary.nvim" },
+    --},
     {
         "stevearc/dressing.nvim",
         config = function()
@@ -459,7 +459,7 @@ require("lazy").setup({
         end,
         ft = { "markdown" },
     },
-    { "rrethy/vim-hexokinase", build = "make hexokinase", lazy = false },
+    --{ "rrethy/vim-hexokinase", build = "make hexokinase", lazy = false },
     { "akinsho/flutter-tools.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
     {
         "nvim-treesitter/nvim-treesitter-context",
