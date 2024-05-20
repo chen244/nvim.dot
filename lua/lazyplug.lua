@@ -50,11 +50,14 @@ require("lazy").setup({
         },
     },
     {
-        "lvimuser/lsp-inlayhints.nvim",
+        "MysticalDevil/inlay-hints.nvim",
+        event = "LspAttach",
+        dependencies = { "neovim/nvim-lspconfig" },
         config = function()
-            require("lsp-inlayhints").setup()
+            require("inlay-hints").setup()
         end,
     },
+
     {
         "folke/todo-comments.nvim",
         dependencies = { "nvim-lua/plenary.nvim" },

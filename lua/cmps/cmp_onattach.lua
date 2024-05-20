@@ -12,7 +12,8 @@ return function(client, bufnr)
 
     --require("aerial").on_attach(client, bufnr)
     --require("nvim-navic").attach(client, bufnr)
-    require("lsp-inlayhints").on_attach(client, bufnr, false)
+    --require("lsp-inlayhints").on_attach(client, bufnr, false)
+    require("inlay-hints").on_attach(client, bufnr)
     -- Mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
     local bufopts = { noremap = true, silent = true, buffer = bufnr }
