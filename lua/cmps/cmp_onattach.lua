@@ -13,6 +13,7 @@ return function(client, bufnr)
     --require("aerial").on_attach(client, bufnr)
     --require("nvim-navic").attach(client, bufnr)
     --require("lsp-inlayhints").on_attach(client, bufnr, false)
+    --vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
     require("inlay-hints").on_attach(client, bufnr)
     -- Mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions

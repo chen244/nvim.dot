@@ -59,6 +59,12 @@ require("lazy").setup({
     },
 
     {
+        "lvimuser/lsp-inlayhints.nvim",
+        config = function ()
+            require("lsp-inlayhints").setup()
+        end
+    },
+    {
         "folke/todo-comments.nvim",
         dependencies = { "nvim-lua/plenary.nvim" },
         config = function()
@@ -463,7 +469,7 @@ require("lazy").setup({
         ft = { "markdown" },
     },
     --{ "rrethy/vim-hexokinase", build = "make hexokinase", lazy = false },
-    { "akinsho/flutter-tools.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
+    { dir = "~/git/flutter-tools.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
     {
         "nvim-treesitter/nvim-treesitter-context",
         config = function()

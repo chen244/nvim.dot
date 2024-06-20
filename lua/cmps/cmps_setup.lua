@@ -21,6 +21,7 @@ end
 local not_package_json = not file_exists("package.json")
 
 require("flutter-tools").setup({
+    flutter_path = "/usr/bin/flutter",
     lsp = {
         capabilities = capabilities,
         on_attach = on_attach,
@@ -167,6 +168,7 @@ local servers_lsp = {
     "teal_ls",
     "typst_lsp",
     "nushell",
+    "typos_lsp"
 }
 
 for _, lsp in ipairs(servers_lsp) do

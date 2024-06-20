@@ -38,6 +38,7 @@ local servers = {
     "zls",
     "slint_lsp",
     "teal_ls",
+    "typos_lsp"
 }
 require("mason").setup()
 require("mason-lspconfig").setup({

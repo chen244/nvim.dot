@@ -9,6 +9,8 @@ vim.api.nvim_set_keymap("n", "fg", "<cmd>Telescope<CR>", { noremap = false, sile
 vim.api.nvim_set_keymap("n", "<leader><space>b", "<cmd>Telescope buffers<CR>", { noremap = false, silent = true })
 vim.api.nvim_set_keymap("n", "<leader><space>f", "<cmd>Telescope fd<CR>", { noremap = false, silent = true })
 
+vim.api.nvim_set_keymap("n", "<leader>v", "<cmd>InlayHintsToggle<CR>", {noremap = false, silent= true})
+
 --vim.api.nvim_set_keymap("n", "<M-j>", ":lua vim.lsp.diagnostic.goto_next()<CR>", { noremap = false, silent = true })
 --vim.api.nvim_set_keymap("n", "<M-k>", ":lua vim.lsp.diagnostic.goto_prev()<CR>", { noremap = false, silent = true })
 
