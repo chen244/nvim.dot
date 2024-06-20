@@ -3,7 +3,7 @@ require("lazy").setup({
     --"tpope/vim-fugitive", --git blame
     "arkav/lualine-lsp-progress",
     "junegunn/fzf",
-    "kongo2002/fsharp-vim", --hightlight for fsharp
+    "kongo2002/fsharp-vim", --hightight for fsharp
     --"peterhoeg/vim-qml",
     "neovim/nvim-lspconfig", -- Collection of configurations for built-in LSP client
     "hrsh7th/nvim-cmp", -- Autocompletion plugin
@@ -346,9 +346,6 @@ require("lazy").setup({
                     delay = 1000,
                     ignore_whitespace = false,
                 },
-                current_line_blame_formatter_opts = {
-                    relative_time = false,
-                },
                 on_attach = function(bufnr)
                     local gs = package.loaded.gitsigns
 
@@ -418,8 +415,8 @@ require("lazy").setup({
                         {
                             function()
                                 local msg = "No Active Lsp"
-                                local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
-                                local clients = vim.lsp.get_active_clients()
+                                local buf_ft = vim.api.nvim_get_option_value("filetype", { buf = 0 })
+                                local clients = vim.lsp.get_clients()
                                 if next(clients) == nil then
                                     return msg
                                 end
