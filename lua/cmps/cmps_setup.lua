@@ -58,7 +58,7 @@ require("flutter-tools").setup({
 --            -- This option is only respected when only_current_line and
 --            -- autoSetHints both are true.
 --            only_current_line_autocmd = "CursorHold",
---            -- wheter to show parameter hints with the inlay hints or not
+--            -- whether to show parameter hints with the inlay hints or not
 --            show_parameter_hints = true,
 --            -- whether to show variable name before type hints with the inlay hints or not
 --            show_variable_name = false,
@@ -76,28 +76,6 @@ require("flutter-tools").setup({
 --            right_align_padding = 7,
 --            -- The color of the hints
 --            highlight = "Comment",
---        },
---        ast = {
---            role_icons = {
---                type = "",
---                declaration = "",
---                expression = "",
---                specifier = "",
---                statement = "",
---                    ["template argument"] = "",
---            },
---            kind_icons = {
---                Compound = "",
---                Recovery = "",
---                TranslationUnit = "",
---                PackExpansion = "",
---                TemplateTypeParm = "",
---                TemplateTemplateParm = "",
---                TemplateParamObject = "",
---            },
---            highlights = {
---                detail = "Comment",
---            },
 --        },
 --    },
 --})
@@ -125,6 +103,7 @@ local servers_lsp = {
     "gdscript",
     "hls",
     "denols",
+    "mesonlsp",
     "html",
     "cssls",
     --"r_language_server",
@@ -168,7 +147,7 @@ local servers_lsp = {
     "teal_ls",
     "typst_lsp",
     "nushell",
-    "typos_lsp"
+    --"typos_lsp"
 }
 
 for _, lsp in ipairs(servers_lsp) do
@@ -177,7 +156,14 @@ for _, lsp in ipairs(servers_lsp) do
         capabilities = capabilities,
         on_attach = on_attach,
     }
-    if lsp == "lua_ls" then
+    if lsp == "clangd" then
+        opts = {
+            -- on_attach = my_custom_on_attach,
+            capabilities = capabilities,
+            on_attach = on_attach,
+            filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
+        }
+    elseif lsp == "lua_ls" then
         opts = {
             on_attach = on_attach,
             capabilities = capabilities,
@@ -274,8 +260,16 @@ local opts = {
         workspace = {
             didChangeWatchedFiles = {
                 dynamicRegistration = true,
+                relative_pattern_support = true,
             },
         },
+        textDocument = {
+            completion = {
+                completionItem = {
+                    snippetSupport = true
+                }
+            }
+        }
     },
     on_attach = on_attach,
 }

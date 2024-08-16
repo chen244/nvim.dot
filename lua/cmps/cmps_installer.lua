@@ -23,7 +23,6 @@ local servers = {
     "gopls",
     --"jedi_language_server",
     "jdtls",
-    "cmake",
     "bashls",
     "vimls",
     --"cssls",
