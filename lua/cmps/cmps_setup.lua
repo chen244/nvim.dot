@@ -116,7 +116,7 @@ local servers_lsp = {
     --"pyright",
     "pylsp",
     --"ruff_lsp",
-    "tsserver",
+    "ts_ls",
     --"omnisharp",
     "fsautocomplete",
     --"hls",
@@ -147,6 +147,7 @@ local servers_lsp = {
     "teal_ls",
     "typst_lsp",
     "nushell",
+    "dockerls"
     --"typos_lsp"
 }
 
@@ -204,7 +205,7 @@ for _, lsp in ipairs(servers_lsp) do
             capabilities = capabilities,
             single_file_support = true,
         }
-    elseif lsp == "tsserver" then
+    elseif lsp == "ts_ls" then
         opts = {
             on_attach = on_attach,
             capabilities = capabilities,

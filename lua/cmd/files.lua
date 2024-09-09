@@ -5,7 +5,7 @@ local File = {
     },
     ["nu"] = {
         tab = false,
-        shift = 2,
+        shift = 4,
     },
     ["slint"] = {
         tab = false,

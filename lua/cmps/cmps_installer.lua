@@ -9,7 +9,7 @@ local servers = {
     "csharp_ls",
     --"pyright",
     "pylsp",
-    "tsserver",
+    "ts_ls",
     --"omnisharp",
     "fsautocomplete",
     --"hls",
@@ -37,7 +37,8 @@ local servers = {
     "zls",
     "slint_lsp",
     "teal_ls",
-    "typos_lsp"
+    "typos_lsp",
+    "dockerls"
 }
 require("mason").setup()
 require("mason-lspconfig").setup({
