@@ -60,9 +60,9 @@ require("lazy").setup({
 
     {
         "lvimuser/lsp-inlayhints.nvim",
-        config = function ()
+        config = function()
             require("lsp-inlayhints").setup()
-        end
+        end,
     },
     {
         "folke/todo-comments.nvim",
@@ -199,6 +199,7 @@ require("lazy").setup({
                 },
             })
             require("telescope").load_extension("notify")
+            require("telescope").load_extension("csharpls_definition")
         end,
     },
     {
@@ -226,6 +227,9 @@ require("lazy").setup({
                 --showoverflow = false
             })
         end,
+    },
+    {
+        dir = "~/git/lala_log",
     },
     {
         "petertriho/nvim-scrollbar",

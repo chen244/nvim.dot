@@ -147,7 +147,7 @@ local servers_lsp = {
     "teal_ls",
     "typst_lsp",
     "nushell",
-    "dockerls"
+    "dockerls",
     --"typos_lsp"
 }
 
@@ -159,10 +159,10 @@ for _, lsp in ipairs(servers_lsp) do
     }
     if lsp == "clangd" then
         opts = {
-            -- on_attach = my_custom_on_attach,
             capabilities = capabilities,
             on_attach = on_attach,
-            filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
+            filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
+            cmd = { "clangd", "--experimental-modules-support" },
         }
     elseif lsp == "lua_ls" then
         opts = {
@@ -267,10 +267,10 @@ local opts = {
         textDocument = {
             completion = {
                 completionItem = {
-                    snippetSupport = true
-                }
-            }
-        }
+                    snippetSupport = true,
+                },
+            },
+        },
     },
     on_attach = on_attach,
 }

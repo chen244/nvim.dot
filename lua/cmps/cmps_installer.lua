@@ -38,7 +38,7 @@ local servers = {
     "slint_lsp",
     "teal_ls",
     "typos_lsp",
-    "dockerls"
+    "dockerls",
 }
 require("mason").setup()
 require("mason-lspconfig").setup({
