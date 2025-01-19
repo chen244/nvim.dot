@@ -27,7 +27,6 @@ require("lazy").setup({
     --"aklt/plantuml-syntax",
     "tyru/open-browser.vim",
     "weirongxu/plantuml-previewer.vim",
-    "simrat39/rust-tools.nvim",
     { dir = "~/git/csharpls-extended-lsp.nvim" },
     "p00f/clangd_extensions.nvim",
     "HiPhish/nvim-ts-rainbow2",
@@ -324,16 +323,6 @@ require("lazy").setup({
             })
         end,
     },
-    {
-        "LhKipp/nvim-nu",
-        build = ":TSInstall nu",
-        config = function()
-            require("nu").setup({
-                use_lsp_features = false,
-            })
-        end,
-    },
-
     --{ "wbthomason/packer.nvim", event = "VimEnter" },
     {
         "lewis6991/gitsigns.nvim",
@@ -480,6 +469,22 @@ require("lazy").setup({
         end,
     },
     {
+        "Julian/lean.nvim",
+        event = { "BufReadPre *.lean", "BufNewFile *.lean" },
+
+        dependencies = {
+            "neovim/nvim-lspconfig",
+            "nvim-lua/plenary.nvim",
+            -- you also will likely want nvim-cmp or some completion engine
+        },
+
+        -- see details below for full configuration options
+        opts = {
+            lsp = {},
+            mappings = true,
+        },
+    },
+    {
         dir = "~/git/nvim-treesitter",
         dependencies = { "nvim-treesitter/playground" },
         build = ":TSUpdate",
@@ -510,7 +515,7 @@ require("lazy").setup({
                 },
                 ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
                 sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
-                ignore_install = { "r", "po" }, -- List of parsers to ignore installing
+                ignore_install = { "r", "po", "hoon" }, -- List of parsers to ignore installing
                 highlight = {
                     enable = true, -- false will disable the whole extension
                     -- disable = { "markdown" }, -- list of language that will be disabled

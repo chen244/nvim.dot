@@ -22,6 +22,7 @@ local not_package_json = not file_exists("package.json")
 
 require("flutter-tools").setup({
     flutter_path = "/usr/bin/flutter",
+    flutter_sdk_path = "/home/cht/Flutter",
     lsp = {
         capabilities = capabilities,
         on_attach = on_attach,
@@ -34,71 +35,7 @@ require("flutter-tools").setup({
         },
     },
 }) -- use defaults
--- clangd start here
---require("clangd_extensions").setup({
---    server = {
---        capabilities = capabilities,
---        on_attach = on_attach,
---        -- options to pass to nvim-lspconfig
---    },
---    extensions = {
---        -- defaults:
---        -- Automatically set inlay hints (type hints)
---        autoSetHints = false,
---        -- Whether to show hover actions inside the hover window
---        -- This overrides the default hover handler
---        hover_with_actions = true,
---        -- These apply to the default ClangdSetInlayHints command
---        inlay_hints = {
---            -- Only show inlay hints for the current line
---            only_current_line = false,
---            -- Event which triggers a refersh of the inlay hints.
---            -- You can make this "CursorMoved" or "CursorMoved,CursorMovedI" but
---            -- not that this may cause  higher CPU usage.
---            -- This option is only respected when only_current_line and
---            -- autoSetHints both are true.
---            only_current_line_autocmd = "CursorHold",
---            -- whether to show parameter hints with the inlay hints or not
---            show_parameter_hints = true,
---            -- whether to show variable name before type hints with the inlay hints or not
---            show_variable_name = false,
---            -- prefix for parameter hints
---            parameter_hints_prefix = "<- ",
---            -- prefix for all the other hints (type, chaining)
---            other_hints_prefix = "=> ",
---            -- whether to align to the length of the longest line in the file
---            max_len_align = false,
---            -- padding from the left if max_len_align is true
---            max_len_align_padding = 1,
---            -- whether to align to the extreme right or not
---            right_align = false,
---            -- padding from the right if right_align is true
---            right_align_padding = 7,
---            -- The color of the hints
---            highlight = "Comment",
---        },
---    },
---})
 
-require("rust-tools").setup({
-    server = {
-        capabilities = capabilities,
-        on_attach = on_attach,
-        -- project settings for rust_analyzer , include features
-        settings = (function()
-            if persettings and persettings.lspsettings and persettings.lspsettings.rust then
-                return persettings.lspsettings.rust
-            else
-                return nil
-            end
-        end)(),
-    },
-    tools = {
-        inlay_hints = {
-            auto = false,
-        },
-    },
-})
 local servers_lsp = {
     "gdscript",
     "hls",
@@ -110,7 +47,7 @@ local servers_lsp = {
     "lua_ls",
     "clangd",
     "gradle_ls",
-    --"rust_analyzer",
+    "rust_analyzer",
     "julials",
     "csharp_ls",
     --"pyright",
@@ -145,7 +82,7 @@ local servers_lsp = {
     "zls",
     "slint_lsp",
     "teal_ls",
-    "typst_lsp",
+    "tinymist",
     "nushell",
     "dockerls",
     --"typos_lsp"
@@ -163,6 +100,22 @@ for _, lsp in ipairs(servers_lsp) do
             on_attach = on_attach,
             filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
             cmd = { "clangd", "--experimental-modules-support" },
+        }
+    elseif lsp == "rust_analyzer" then
+        opts = {
+            capabilities = capabilities,
+            on_attach = on_attach,
+            settings = (function()
+                if persettings and persettings.lspsettings and persettings.lspsettings.rust then
+                    return persettings.lspsettings.rust
+                else
+                    return {
+                        ['rust-analyzer'] = {
+                            --checkOnSave = false
+                        }
+                    }
+                end
+            end)(),
         }
     elseif lsp == "lua_ls" then
         opts = {
@@ -226,18 +179,17 @@ for _, lsp in ipairs(servers_lsp) do
                         includeInlayEnumMemberValueHints = true,
                     },
                 },
-                javascript = {
-                    inlayHints = {
-                        includeInlayParameterNameHints = "all",
-                        includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                        includeInlayFunctionParameterTypeHints = true,
-                        includeInlayVariableTypeHints = true,
-                        includeInlayPropertyDeclarationTypeHints = true,
-                        includeInlayFunctionLikeReturnTypeHints = true,
-                        includeInlayEnumMemberValueHints = true,
-                    },
-                },
             },
+        }
+    elseif lsp == "rust_analyzer" then
+        opts = {
+            capabilities = capabilities,
+            on_attach = on_attach,
+            settings = {
+                ['rust-analyzer'] = {
+                    checkOnSave = false
+                }
+            }
         }
     elseif lsp == "csharp_ls" then
         opts = {
@@ -255,7 +207,6 @@ for _, lsp in ipairs(servers_lsp) do
 end
 
 --- testing
-local configs = require("lspconfig.configs")
 local opts = {
     capabilities = {
         workspace = {
@@ -280,23 +231,34 @@ end
 
 nvim_lsp.neocmake.setup(opts)
 
+local opts_kt = {
+    capabilities = capabilities,
+    on_attach = on_attach,
+    settings = {
+        kotlin = {
+            inlayHints = {
+                typeHints = true,
+                chainedHints = true
+            },
+            snippetsEnabled = true,
+            formatting = {
+                ktfmt = {
+                    style = "google",
+                    indent = 2,
+                    continuationIndent = 4
+                }
+            },
+            completion = {
+                snippets = {
+                    enabled = true
+                }
+            }
+        }
+    }
+}
 --- mime cmake lsp
 
-if persettings and persettings.lsp and persettings.lsp.neoqml then
-    configs.neoqml = persettings.lsp.neoqml
-    nvim_lsp.neoqml.setup({})
-else
-    configs.qml_lsp = {
-        default_config = {
-            --cmd = { "/usr/lib/qt6/bin/qmlls" },
-            cmd = { "/usr/bin/qmlls6" },
-            filetypes = { "qmljs" },
-            root_dir = function(fname)
-                return nvim_lsp.util.find_git_ancestor(fname)
-            end,
-            single_file_support = true,
-            on_attach = on_attach,
-        },
-    }
-    nvim_lsp.qml_lsp.setup({})
+if persettings and persettings.lsp and persettings.lsp.kotlin_language_server then
+    opts_kt = persettings.lsp.kotlin_language_server
 end
+nvim_lsp.kotlin_language_server.setup(opts_kt)

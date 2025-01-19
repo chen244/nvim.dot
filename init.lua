@@ -53,3 +53,32 @@ if lazy_bootstrap then
     -- for test
     require("mytreesitter")
 end
+
+-- Save the original `window/showMessage` handler
+local original_show_message = vim.lsp.handlers["window/showMessage"]
+
+-- Override the handler
+vim.lsp.handlers["window/showMessage"] = function(err, result, ctx, config)
+    -- Extract the message and message type from the LSP result
+    local message = result.message
+    local message_type = result.type
+
+    -- Map LSP message types to Neovim's log levels
+    local log_level = {
+        [1] = vim.log.levels.ERROR, -- LSP `Error`
+        [2] = vim.log.levels.WARN,  -- LSP `Warning`
+        [3] = vim.log.levels.INFO,  -- LSP `Info`
+        [4] = vim.log.levels.DEBUG  -- LSP `Log`
+    }
+
+    if message_type == 1 then
+        vim.notify(message, log_level[message_type], {
+            title = "Error", -- Custom notification title
+            timeout = 3000,  -- Notification duration (milliseconds)
+        })
+        return
+    end
+    -- Use `vim.notify` to display the message
+    -- Call the original handler to preserve default behavior
+    original_show_message(err, result, ctx, config)
+end
